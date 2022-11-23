@@ -1,3 +1,7 @@
+<p align="center">
+  <img alt="Angular" src="https://avatars3.githubusercontent.com/u/18616443?s=400&v=4" width="300">
+</p>
+
 # IngresosApp
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.8.

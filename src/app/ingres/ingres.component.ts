@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-ingres',
@@ -7,9 +8,31 @@ import { Component, OnInit } from '@angular/core';
 })
 export class IngresComponent implements OnInit {
 
-  constructor() { }
+  ingressForm!: FormGroup;
+
+  type: string = 'i';
+
+  constructor(
+
+    private fb: FormBuilder
+
+  ) { }
 
   ngOnInit(): void {
+
+    this.ingressForm = this.fb.group({
+      desc: ['', [Validators.required]],
+      monto: ['', [Validators.required]],
+    })
+
+  }
+
+  save() {
+
+    if (this.ingressForm.invalid) return;
+
+    console.log(this.ingressForm.value);
+
   }
 
 }

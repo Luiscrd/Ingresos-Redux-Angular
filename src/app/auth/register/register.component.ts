@@ -1,6 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
+import { AppState } from 'src/app/app.reducer';
+import { isLoadingAction, stopLoadingAction } from 'src/app/shared/ui.actions';
 import Swal from 'sweetalert2';
 import { AuthService } from '../../services/auth.service';
 
@@ -9,9 +13,13 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent implements OnInit, OnDestroy {
 
   registerForm!: FormGroup;
+
+  loading: boolean = false;
+
+  uiSuscription!: Subscription;
 
   constructor(
 
@@ -19,7 +27,9 @@ export class RegisterComponent implements OnInit {
 
     private authService: AuthService,
 
-    private router: Router
+    private router: Router,
+
+    private store: Store<AppState>
 
     ) { }
 
@@ -30,11 +40,28 @@ export class RegisterComponent implements OnInit {
       email: ['luis@test.com', [Validators.required, Validators.email]],
       password: ['123456', Validators.required],
     })
+
+    this.uiSuscription = this.store.select('ui').subscribe(ui => {
+
+      console.log(ui.isLoading);
+
+      this.loading = ui.isLoading;
+
+    })
+
+  }
+
+  ngOnDestroy(): void {
+
+    this.uiSuscription.unsubscribe();
+
   }
 
   createUserr() {
 
     if (this.registerForm.invalid) return;
+
+    this.store.dispatch(isLoadingAction());
 
     const { name, email, password } = this.registerForm.value;
 
@@ -45,6 +72,8 @@ export class RegisterComponent implements OnInit {
         'Registro Exitoso',
         'success'
       )
+
+      this.store.dispatch(stopLoadingAction());
 
       this.router.navigateByUrl('/');
 

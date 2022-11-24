@@ -38,7 +38,7 @@ export class RegisterComponent implements OnInit {
 
     const { name, email, password } = this.registerForm.value;
 
-    this.authService.createUser(name, email, password).then(cred =>{
+    this.authService.createUser(name, email, password).then(resp =>{
 
       Swal.fire(
         'Aceptado',

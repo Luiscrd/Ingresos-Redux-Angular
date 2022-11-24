@@ -46,4 +46,20 @@ export class AuthService {
 
   }
 
+  isAuth() {
+
+    const uid = this.auth.currentUser?.uid;
+
+    if (uid) {
+
+      return true;
+
+    } else {
+
+      return false;
+
+    }
+
+  }
+
 }

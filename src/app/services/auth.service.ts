@@ -35,14 +35,9 @@ export class AuthService {
 
         getDocFromServer(refDoc).then(resp => {
 
-          const fsUser = resp.data();
+          const { uid, name, email } = resp.data()!;
 
-          this.store.dispatch(setUser({
-            user: {
-              uid: fsUser!['uid'],
-              name: fsUser!['name'],
-              email: fsUser!['email']
-            }}));
+          this.store.dispatch(setUser({user: { uid, name, email}}));
 
         })
 

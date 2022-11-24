@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "angular-ingreso-redux": {
+      "hosting": {
+        "ingresos-app": [
+          "angular-ingreso-redux"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "angular-ingreso-redux"
+  }
+}

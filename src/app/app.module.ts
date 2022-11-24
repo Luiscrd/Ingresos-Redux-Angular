@@ -13,6 +13,9 @@ import { DetailComponent } from './ingres/detail/detail.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { NabvarComponent } from './shared/nabvar/nabvar.component';
 import { SidebarComponent } from './shared/sidebar/sidebar.component';
+import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+import { environment } from '../environments/environment';
+import { provideAuth,getAuth } from '@angular/fire/auth';
 
 @NgModule({
   declarations: [
@@ -30,7 +33,9 @@ import { SidebarComponent } from './shared/sidebar/sidebar.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideAuth(() => getAuth()),
   ],
   providers: [],
   bootstrap: [AppComponent]

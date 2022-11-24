@@ -40,8 +40,6 @@ export class RegisterComponent implements OnInit {
 
     this.authService.createUser(name, email, password).then(cred =>{
 
-      // console.log(cred);
-
       Swal.fire(
         'Aceptado',
         'Registro Exitoso',
@@ -57,7 +55,7 @@ export class RegisterComponent implements OnInit {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
-        text: err,
+        text: 'El email ya existe',
       })
 
     })

@@ -7,24 +7,43 @@ import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from
 })
 export class AuthService {
 
-  constructor( private auth: Auth ) {
+  constructor(private auth: Auth) {
+
+  }
+
+  initAuthListener() {
+
+    return this.auth.beforeAuthStateChanged(user => {
+
+      if (user) {
+
+        console.log(user?.email);
+
+        console.log(user?.uid);
+
+
+      }
+
+    })
 
   }
 
   createUser(name: string, email: string, password: string) {
 
-    console.log({name, email, password});
-
-    return createUserWithEmailAndPassword(this.auth,email,password);
+    return createUserWithEmailAndPassword(this.auth, email, password);
 
   }
 
   loginUser(email: string, password: string) {
 
-    console.log({email, password});
-
-    return signInWithEmailAndPassword(this.auth,email,password);
-
+    return signInWithEmailAndPassword(this.auth, email, password);
 
   }
+
+  logout() {
+
+    return this.auth.signOut();
+
+  }
+
 }

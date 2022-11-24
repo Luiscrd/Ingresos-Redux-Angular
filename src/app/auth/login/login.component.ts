@@ -40,8 +40,6 @@ export class LoginComponent implements OnInit {
 
     this.authService.loginUser(email, password).then(resp => {
 
-      console.log(resp);
-
       Swal.fire(
         'Correcto',
         'Loguin Exitoso',

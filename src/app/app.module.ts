@@ -19,7 +19,7 @@ import { provideAuth,getAuth } from '@angular/fire/auth';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { isLoadingReducer } from './shared/ui.reducer';
+import { appReducers } from './app.reducer';
 
 
 @NgModule({
@@ -42,7 +42,7 @@ import { isLoadingReducer } from './shared/ui.reducer';
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
-    StoreModule.forRoot({ isLoading: isLoadingReducer }),
+    StoreModule.forRoot(appReducers),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
   ],
   providers: [],

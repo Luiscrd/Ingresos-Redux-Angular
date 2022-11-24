@@ -1,3 +1,5 @@
 import { createAction } from '@ngrx/store';
 
-export const isLoading = createAction('[UI Component] IsLoading');
+export const isLoadingAction = createAction('[UI Component] IsLoading');
+export const stopLoadingAction = createAction('[UI Component] StopLoading');
+

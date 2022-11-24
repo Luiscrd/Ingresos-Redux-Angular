@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from '@angular/fire/auth';
 import { User } from '../models/user.model';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { addDoc, Firestore } from '@angular/fire/firestore';
-import { collection } from '@firebase/firestore';
+import { addDoc, doc, Firestore, getDocFromServer } from '@angular/fire/firestore';
+import { collection, getDoc } from '@firebase/firestore';
+import { Store } from '@ngrx/store';
+import { AppState } from '../app.reducer';
+import { setUser, unSetUser } from '../auth/auth.actions';
 
 
 @Injectable({
@@ -15,7 +17,9 @@ export class AuthService {
 
     private auth: Auth,
 
-    private firestore: Firestore
+    private firestore: Firestore,
+
+    private store: Store<AppState>
 
     ) {
 
@@ -27,10 +31,19 @@ export class AuthService {
 
       if (user) {
 
-        console.log(user?.email);
+        const refDoc = doc(this.firestore, '/9aADaMFptyTDOvN9w6DCj4svFPa2/PswqDp7PfaiIhUNFpQ8L');
 
-        console.log(user?.uid);
+        getDocFromServer(refDoc).then(resp => {
 
+          const fsUser = resp.data();
+
+          this.store.dispatch(setUser({user: {uid: fsUser!['uid'], name: fsUser!['name'], email: fsUser!['email']}}));
+
+        })
+
+      } else {
+
+        this.store.dispatch(unSetUser());
 
       }
 
@@ -42,9 +55,11 @@ export class AuthService {
 
     return createUserWithEmailAndPassword(this.auth, email, password).then(resp => {
 
+      console.log(resp.user.uid);
+
       const newUswer = new User(resp.user.uid, name, email);
 
-      const userRef = collection(this.firestore, 'user');
+      const userRef = collection(this.firestore, resp.user.uid)
 
       return addDoc(userRef, {...newUswer});
 

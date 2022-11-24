@@ -37,7 +37,12 @@ export class AuthService {
 
           const fsUser = resp.data();
 
-          this.store.dispatch(setUser({user: {uid: fsUser!['uid'], name: fsUser!['name'], email: fsUser!['email']}}));
+          this.store.dispatch(setUser({
+            user: {
+              uid: fsUser!['uid'],
+              name: fsUser!['name'],
+              email: fsUser!['email']
+            }}));
 
         })
 
